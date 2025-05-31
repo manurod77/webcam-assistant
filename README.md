@@ -23,9 +23,9 @@ OPENAI_API_KEY=sk-tu-clave-aquí
 npm run dev
 ```
 
-## ✨ Funcionalidades
+## 🌐 Despliegue en Vercel
 
-- Generador de respuestas según mood, intensidad e idioma.
-- Opción de moderación automática si el usuario se sobrepasa.
-- Copiado rápido de respuestas.
-- Fácilmente extensible.
+1. Sube este repositorio a GitHub
+2. Conéctalo a [vercel.com](https://vercel.com)
+3. Agrega la variable de entorno `OPENAI_API_KEY`
+4. ¡Listo!
