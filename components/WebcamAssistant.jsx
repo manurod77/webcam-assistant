@@ -1,8 +1,4 @@
 import React, { useState } from "react";
-import { Textarea } from "@/components/ui/textarea";
-import { Button } from "@/components/ui/button";
-import { Select, SelectTrigger, SelectValue, SelectContent, SelectItem } from "@/components/ui/select";
-import { Switch } from "@/components/ui/switch";
 
 export default function WebcamAssistant() {
   const [userInput, setUserInput] = useState("");
@@ -13,13 +9,13 @@ export default function WebcamAssistant() {
   const [response, setResponse] = useState("");
 
   const generateResponse = async () => {
-    const prompt = \`User message: "\${userInput}"
-Mood: \${mood}
-Intensity: \${intensity}
-Respond in: \${language}
-Moderation mode: \${moderation ? "ON" : "OFF"}
+    const prompt = `User message: "${userInput}"
+Mood: ${mood}
+Intensity: ${intensity}
+Respond in: ${language}
+Moderation mode: ${moderation ? "ON" : "OFF"}
 
-Generate a flirty, creative response for a webcam model in this style. If the user is being inappropriate or offensive and moderation is ON, respond smartly to de-escalate or redirect.\`;
+Generate a flirty, creative response for a webcam model in this style. If the user is being inappropriate or offensive and moderation is ON, respond smartly to de-escalate or redirect.`;
 
     const res = await fetch("/api/generate", {
       method: "POST",
@@ -32,63 +28,93 @@ Generate a flirty, creative response for a webcam model in this style. If the us
   };
 
   return (
-    <div className="max-w-xl mx-auto p-4 space-y-4">
-      <h1 className="text-2xl font-bold">Webcam Assistant</h1>
+    <div style={{ maxWidth: 600, margin: "2rem auto", padding: 16, fontFamily: "Arial, sans-serif" }}>
+      <h1 style={{ fontSize: 24, fontWeight: "bold", marginBottom: 16 }}>Webcam Assistant</h1>
 
-      <Textarea
+      <textarea
         placeholder="Pega aquí lo que escribió el cliente..."
         value={userInput}
         onChange={(e) => setUserInput(e.target.value)}
+        rows={4}
+        style={{ width: "100%", padding: 8, fontSize: 14, marginBottom: 16 }}
       />
 
-      <div className="grid grid-cols-3 gap-2">
-        <Select value={mood} onValueChange={setMood}>
-          <SelectTrigger><SelectValue placeholder="Mood" /></SelectTrigger>
-          <SelectContent>
-            <SelectItem value="sweet">Dulce 🍬</SelectItem>
-            <SelectItem value="playful">Juguetona 😛</SelectItem>
-            <SelectItem value="naughty">Traviesa 😈</SelectItem>
-            <SelectItem value="dominant">Dominante 💋</SelectItem>
-            <SelectItem value="submissive">Sumisa 🙈</SelectItem>
-            <SelectItem value="mysterious">Misteriosa 🌙</SelectItem>
-          </SelectContent>
-        </Select>
+      <div style={{ display: "flex", gap: 12, marginBottom: 16 }}>
+        <select value={mood} onChange={(e) => setMood(e.target.value)} style={{ flex: 1, padding: 8, fontSize: 14 }}>
+          <option value="sweet">Dulce 🍬</option>
+          <option value="playful">Juguetona 😛</option>
+          <option value="naughty">Traviesa 😈</option>
+          <option value="dominant">Dominante 💋</option>
+          <option value="submissive">Sumisa 🙈</option>
+          <option value="mysterious">Misteriosa 🌙</option>
+        </select>
 
-        <Select value={intensity} onValueChange={setIntensity}>
-          <SelectTrigger><SelectValue placeholder="Intensidad" /></SelectTrigger>
-          <SelectContent>
-            <SelectItem value="low">🔹 Suave</SelectItem>
-            <SelectItem value="medium">🔸 Media</SelectItem>
-            <SelectItem value="high">🔥 Alta</SelectItem>
-          </SelectContent>
-        </Select>
+        <select value={intensity} onChange={(e) => setIntensity(e.target.value)} style={{ flex: 1, padding: 8, fontSize: 14 }}>
+          <option value="low">🔹 Suave</option>
+          <option value="medium">🔸 Media</option>
+          <option value="high">🔥 Alta</option>
+        </select>
 
-        <Select value={language} onValueChange={setLanguage}>
-          <SelectTrigger><SelectValue placeholder="Idioma" /></SelectTrigger>
-          <SelectContent>
-            <SelectItem value="es">Español 🇪🇸</SelectItem>
-            <SelectItem value="en">Inglés 🇬🇧</SelectItem>
-            <SelectItem value="both">Ambos 🌐</SelectItem>
-          </SelectContent>
-        </Select>
+        <select value={language} onChange={(e) => setLanguage(e.target.value)} style={{ flex: 1, padding: 8, fontSize: 14 }}>
+          <option value="es">Español 🇪🇸</option>
+          <option value="en">Inglés 🇬🇧</option>
+          <option value="both">Ambos 🌐</option>
+        </select>
       </div>
 
-      <div className="flex items-center space-x-2">
-        <Switch checked={moderation} onCheckedChange={setModeration} />
-        <span className="text-sm">Modo moderación activado</span>
-      </div>
+      <label style={{ display: "flex", alignItems: "center", marginBottom: 16, fontSize: 14 }}>
+        <input
+          type="checkbox"
+          checked={moderation}
+          onChange={(e) => setModeration(e.target.checked)}
+          style={{ marginRight: 8 }}
+        />
+        Modo moderación activado
+      </label>
 
-      <Button onClick={generateResponse}>Generar respuesta</Button>
+      <button
+        onClick={generateResponse}
+        style={{
+          width: "100%",
+          padding: 12,
+          fontSize: 16,
+          fontWeight: "bold",
+          backgroundColor: "#0070f3",
+          color: "white",
+          border: "none",
+          borderRadius: 4,
+          cursor: "pointer",
+        }}
+      >
+        Generar respuesta
+      </button>
 
       {response && (
-        <div className="p-4 bg-gray-100 rounded-xl mt-4">
-          <p className="whitespace-pre-wrap">{response}</p>
-          <Button
-            className="mt-2"
+        <div
+          style={{
+            marginTop: 24,
+            padding: 16,
+            backgroundColor: "#f0f0f0",
+            borderRadius: 8,
+            whiteSpace: "pre-wrap",
+          }}
+        >
+          {response}
+          <button
             onClick={() => navigator.clipboard.writeText(response)}
+            style={{
+              marginTop: 12,
+              padding: 8,
+              fontSize: 14,
+              backgroundColor: "#555",
+              color: "white",
+              border: "none",
+              borderRadius: 4,
+              cursor: "pointer",
+            }}
           >
             Copiar respuesta 📋
-          </Button>
+          </button>
         </div>
       )}
     </div>
